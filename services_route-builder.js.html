@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Module: core/service-test-runner/create-service-tester</title>
+    <title>JSDoc: Source: services/route-builder.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,212 +17,81 @@
 
 <div id="main">
 
-    <h1 class="page-title">Module: core/service-test-runner/create-service-tester</h1>
+    <h1 class="page-title">Source: services/route-builder.js</h1>
 
     
 
 
 
-
-<section>
-
-<header>
     
-</header>
-
-<article>
-    <div class="container-overview">
-    
-        
-
-        
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="core_service-test-runner_create-service-tester.js.html">core/service-test-runner/create-service-tester.js</a>, <a href="core_service-test-runner_create-service-tester.js.html#line1">line 1</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-        
-    
-    </div>
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <h3 class="subsection-title">Methods</h3>
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="~createServiceTester"><span class="type-signature">(async, inner) </span>createServiceTester<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="module-core_service-test-runner_service-tester-ServiceTester.html">module:core/service-test-runner/service-tester~ServiceTester</a>}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    <p>Automatically create a ServiceTester.</p>
-<p>When run from e.g. <code>gem-rank.tester.js</code>, this will create a tester that
-attaches to the service found in <code>gem-rank.service.js</code>.</p>
-<p>This can't be used for <code>.service.js</code> files which export more than one
-service.</p>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="core_service-test-runner_create-service-tester.js.html">core/service-test-runner/create-service-tester.js</a>, <a href="core_service-test-runner_create-service-tester.js.html#line21">line 21</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    <p>ServiceTester instance</p>
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type"><a href="module-core_service-test-runner_service-tester-ServiceTester.html">module:core/service-test-runner/service-tester~ServiceTester</a></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-
-        
-    
-
-    
-
-    
-</article>
-
-</section>
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Common functions and utilities for tasks related to route building
+ *
+ * @module
+ */
+
+import toArray from '../core/base-service/to-array.js'
+
+/*
+ * Factory class for building a BaseService `route` object. This class is useful
+ * in complex collections of service classes, when the URL is built
+ * conditionally.
+ *
+ * Patterns based on path-to-regex may obviate the need for this, though they
+ * haven't done so yet.
+ */
+export default class RouteBuilder {
+  /**
+   * Creates a RouteBuilder object.
+   *
+   * @param {object} attrs - Refer to individual attributes
+   * @param {string} attrs.base - Base URL, defaults to ''
+   */
+  constructor({ base = '' } = {}) {
+    this.base = base
+
+    this._formatComponents = []
+    this.capture = []
+  }
+
+  /**
+   * Get the format components separated by '/'
+   *
+   * @returns {string} Format components, for example: "format1/format2/format3"
+   */
+  get format() {
+    return this._formatComponents.join('/')
+  }
+
+  /**
+   * Saves the format and capture values in the RouteBuilder instance.
+   *
+   * @param {string} format - Pattern based on path-to-regex, for example: (?:(.+)\\.)?${serviceBaseUrl}
+   * @param {string} capture - Value to capture
+   * @returns {object} RouteBuilder instance for chaining
+   */
+  push(format, capture) {
+    this._formatComponents = this._formatComponents.concat(toArray(format))
+    this.capture = this.capture.concat(toArray(capture))
+    // Return `this` for chaining.
+    return this
+  }
+
+  /**
+   * Returns a new object based on RouteBuilder instance containing its base, format and capture properties.
+   *
+   * @returns {object} Object containing base, format and capture properties of the RouteBuilder instance
+   */
+  toObject() {
+    const { base, format, capture } = this
+    return { base, format, capture }
+  }
+}
+</code></pre>
+        </article>
+    </section>
 
 
 
