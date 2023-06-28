@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: badge-maker/lib/xml.js</title>
+    <title>JSDoc: Source: services/validators.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: badge-maker/lib/xml.js</h1>
+    <h1 class="page-title">Source: services/validators.js</h1>
 
     
 
@@ -27,101 +27,86 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
+ * This module contains commonly used validators.
+ *
  * @module
  */
 
-'use strict'
-
-function stripXmlWhitespace(xml) {
-  return xml.replace(/>\s+/g, '>').replace(/&lt;\s+/g, '&lt;').trim()
-}
-
-function escapeXml(s) {
-  if (typeof s === 'number') {
-    return s
-  } else if (s === undefined || typeof s !== 'string') {
-    return undefined
-  } else {
-    return s
-      .replace(/&amp;/g, '&amp;amp;')
-      .replace(/&lt;/g, '&amp;lt;')
-      .replace(/>/g, '&amp;gt;')
-      .replace(/"/g, '&amp;quot;')
-      .replace(/'/g, '&amp;apos;')
-  }
-}
+import {
+  semver as joiSemver,
+  semverRange as joiSemverRange,
+} from 'joi-extension-semver'
+import joi from 'joi'
+const Joi = joi.extend(joiSemver).extend(joiSemverRange)
 
 /**
- * Representation of an XML element
+ * Joi validator that checks if a value is a number, an integer, and greater than or equal to zero.
+ *
+ * @type {Joi}
  */
-class XmlElement {
-  /**
-   * Xml Element Constructor
-   *
-   * @param {object} attrs Refer to individual attrs
-   * @param {string} attrs.name
-   *    Name of the XML tag
-   * @param {Array.&lt;string|module:badge-maker/lib/xml~XmlElement>} [attrs.content=[]]
-   *    Array of objects to render inside the tag. content may contain a mix of
-   *    string and XmlElement objects. If content is `[]` or ommitted the
-   *    element will be rendered as a self-closing element.
-   * @param {object} [attrs.attrs={}]
-   *    Object representing the tag's attributes as name/value pairs
-   */
-  constructor({ name, content = [], attrs = {} }) {
-    this.name = name
-    this.content = content
-    this.attrs = attrs
-  }
+const optionalNonNegativeInteger = Joi.number().integer().min(0)
 
-  /**
-   * Render the XML element to a string, applying appropriate escaping
-   *
-   * @returns {string} String representation of the XML element
-   */
-  render() {
-    const attrsStr = Object.entries(this.attrs)
-      .map(([k, v]) => ` ${k}="${escapeXml(v)}"`)
-      .join('')
-    if (this.content.length > 0) {
-      const content = this.content
-        .map(function (el) {
-          if (typeof el.render === 'function') {
-            return el.render()
-          } else {
-            return escapeXml(el)
-          }
-        })
-        .join(' ')
-      return stripXmlWhitespace(
-        `&lt;${this.name}${attrsStr}>${content}&lt;/${this.name}>`
-      )
-    }
-    return stripXmlWhitespace(`&lt;${this.name}${attrsStr}/>`)
-  }
-}
+export { optionalNonNegativeInteger }
 
 /**
- * Convenience class. Sometimes it is useful to return an object that behaves
- * like an XmlElement but renders multiple XML tags (not wrapped in a &lt;g>).
+ * Joi validator that checks if a value is a number, an integer, greater than or equal to zero and the value must be present.
+ *
+ * @type {Joi}
  */
-class ElementList {
-  constructor({ content = [] }) {
-    this.content = content
-  }
+export const nonNegativeInteger = optionalNonNegativeInteger.required()
 
-  render() {
-    return this.content.reduce(
-      (acc, el) =>
-        typeof el.render === 'function'
-          ? acc + el.render()
-          : acc + escapeXml(el),
-      ''
-    )
-  }
-}
+/**
+ * Joi validator that checks if a value is a number, an integer and the value must be present.
+ *
+ * @type {Joi}
+ */
+export const anyInteger = Joi.number().integer().required()
 
-module.exports = { escapeXml, stripXmlWhitespace, XmlElement, ElementList }
+/**
+ * Joi validator that checks if a value is a valid semantic versioning string and the value must be present.
+ *
+ * @type {Joi}
+ */
+export const semver = Joi.semver().valid().required()
+
+/**
+ * Joi validator that checks if a value is a valid semantic versioning range and the value must be present.
+ *
+ * @type {Joi}
+ */
+export const semverRange = Joi.semverRange().valid().required()
+
+/**
+ * Joi validator that checks if a value is a string that matches a regular expression.
+ * The regular expression matches strings that start with one or more digits, followed by zero or more groups of a dot and one or more digits,
+ * followed by an optional suffix that starts with a dash or a plus sign and can contain any characters.
+ * This validator can be used to validate properties that can be version strings with an optional suffix or absent.
+ * For example, some valid values for this validator are: 1, 1.0, 1.0.0, 1.0.0-beta
+ * Some invalid values for this validator are: abc, 1.a, 1.0-, .1
+ *
+ * @type {Joi}
+ */
+export const optionalDottedVersionNClausesWithOptionalSuffix =
+  Joi.string().regex(/^\d+(\.\d+)*([-+].*)?$/)
+
+/**
+ * Joi validator that checks if a value is a URL
+ *
+ * TODO: This accepts URLs with query strings and fragments, which for some purposes should be rejected.
+ *
+ * @type {Joi}
+ */
+export const optionalUrl = Joi.string().uri({ scheme: ['http', 'https'] })
+
+/**
+ * Joi validator for a file size we are going to pass to bytes.parse
+ * see https://github.com/visionmedia/bytes.js#bytesparsestringnumber-value-numbernull
+ *
+ * @type {Joi}
+ */
+export const fileSize = Joi.string()
+  .regex(/^[0-9]+(b|kb|mb|gb|tb)$/i)
+  .required()
 </code></pre>
         </article>
     </section>

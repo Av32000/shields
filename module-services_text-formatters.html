@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Module: services/php-version</title>
+    <title>JSDoc: Module: services/text-formatters</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Module: services/php-version</h1>
+    <h1 class="page-title">Module: services/text-formatters</h1>
 
     
 
@@ -34,9 +34,8 @@
     <div class="container-overview">
     
         
-            <div class="description"><p>Utilities relating to PHP version numbers. This compares version numbers
-using the algorithm followed by Composer (see
-https://getcomposer.org/doc/04-schema.md#version).</p></div>
+            <div class="description"><p>Commonly-used functions for formatting text in badge labels. Includes
+ordinal numbers, currency codes, star ratings, versions, etc.</p></div>
         
 
         
@@ -71,7 +70,7 @@ https://getcomposer.org/doc/04-schema.md#version).</p></div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="services_php-version.js.html">services/php-version.js</a>, <a href="services_php-version.js.html#line1">line 1</a>
+        <a href="services_text-formatters.js.html">services/text-formatters.js</a>, <a href="services_text-formatters.js.html#line1">line 1</a>
     </li></ul></dd>
     
 
@@ -110,7 +109,7 @@ https://getcomposer.org/doc/04-schema.md#version).</p></div>
     
 
     
-    <h4 class="name" id="~asciiVersionCompare"><span class="type-signature">(inner) </span>asciiVersionCompare<span class="signature">(v1, v2)</span><span class="type-signature"> &rarr; {number}</span></h4>
+    <h4 class="name" id="~addv"><span class="type-signature">(inner) </span>addv<span class="signature">(version)</span><span class="type-signature"> &rarr; {string}</span></h4>
     
 
     
@@ -118,8 +117,8 @@ https://getcomposer.org/doc/04-schema.md#version).</p></div>
 
 
 <div class="description">
-    <p>Return a negative value if v1 &lt; v2,
-zero if v1 = v2, a positive value otherwise.</p>
+    <p>Add a starting v to the version unless it doesn't starts with a digit or is a date (yyyy-mm-dd)
+For example, addv(&quot;1.2.3&quot;) returns &quot;v1.2.3&quot;, but addv(&quot;hello&quot;) or addv(&quot;2021-10-31&quot;), returns &quot;hello&quot; and &quot;2021-10-31&quot; respectively.</p>
 </div>
 
 
@@ -155,7 +154,7 @@ zero if v1 = v2, a positive value otherwise.</p>
 
         <tr>
             
-                <td class="name"><code>v1</code></td>
+                <td class="name"><code>version</code></td>
             
 
             <td class="type">
@@ -171,30 +170,7 @@ zero if v1 = v2, a positive value otherwise.</p>
 
             
 
-            <td class="description last"><p>First version for comparison</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>v2</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>Second version for comparison</p></td>
+            <td class="description last"><p>Version string</p></td>
         </tr>
 
     
@@ -235,7 +211,7 @@ zero if v1 = v2, a positive value otherwise.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="services_php-version.js.html">services/php-version.js</a>, <a href="services_php-version.js.html#line22">line 22</a>
+        <a href="services_text-formatters.js.html">services/text-formatters.js</a>, <a href="services_text-formatters.js.html#line139">line 139</a>
     </li></ul></dd>
     
 
@@ -264,7 +240,7 @@ zero if v1 = v2, a positive value otherwise.</p>
 
         
 <div class="param-desc">
-    <p>Comparison result (-1, 0 or 1)</p>
+    <p>Version string with the starting v</p>
 </div>
 
 
@@ -275,7 +251,7 @@ zero if v1 = v2, a positive value otherwise.</p>
     </dt>
     <dd>
         
-<span class="param-type">number</span>
+<span class="param-type">string</span>
 
 
     </dd>
@@ -293,7 +269,7 @@ zero if v1 = v2, a positive value otherwise.</p>
     
 
     
-    <h4 class="name" id="~compare"><span class="type-signature">(inner) </span>compare<span class="signature">(v1, v2)</span><span class="type-signature"> &rarr; {number}</span></h4>
+    <h4 class="name" id="~currencyFromCode"><span class="type-signature">(inner) </span>currencyFromCode<span class="signature">(code)</span><span class="type-signature"> &rarr; {string}</span></h4>
     
 
     
@@ -301,9 +277,8 @@ zero if v1 = v2, a positive value otherwise.</p>
 
 
 <div class="description">
-    <p>Compares two versions and return an integer based on the result.
-See https://getcomposer.org/doc/04-schema.md#version
-and https://github.com/badges/shields/issues/319#issuecomment-74411045</p>
+    <p>Converts the ISO 4217 code to the corresponding currency symbol.
+If the the symbol for the code is not found, then the code itself is returned.</p>
 </div>
 
 
@@ -339,7 +314,7 @@ and https://github.com/badges/shields/issues/319#issuecomment-74411045</p>
 
         <tr>
             
-                <td class="name"><code>v1</code></td>
+                <td class="name"><code>code</code></td>
             
 
             <td class="type">
@@ -355,30 +330,7 @@ and https://github.com/badges/shields/issues/319#issuecomment-74411045</p>
 
             
 
-            <td class="description last"><p>First version</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>v2</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>Second version</p></td>
+            <td class="description last"><p>ISO 4217 code</p></td>
         </tr>
 
     
@@ -419,7 +371,7 @@ and https://github.com/badges/shields/issues/319#issuecomment-74411045</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="services_php-version.js.html">services/php-version.js</a>, <a href="services_php-version.js.html#line144">line 144</a>
+        <a href="services_text-formatters.js.html">services/text-formatters.js</a>, <a href="services_text-formatters.js.html#line54">line 54</a>
     </li></ul></dd>
     
 
@@ -448,7 +400,7 @@ and https://github.com/badges/shields/issues/319#issuecomment-74411045</p>
 
         
 <div class="param-desc">
-    <p>Negative value if v1 &lt; v2, zero if v1 = v2, else a positive value</p>
+    <p>Currency symbol for the code</p>
 </div>
 
 
@@ -459,7 +411,7 @@ and https://github.com/badges/shields/issues/319#issuecomment-74411045</p>
     </dt>
     <dd>
         
-<span class="param-type">number</span>
+<span class="param-type">string</span>
 
 
     </dd>
@@ -477,7 +429,7 @@ and https://github.com/badges/shields/issues/319#issuecomment-74411045</p>
     
 
     
-    <h4 class="name" id="~getPhpReleases"><span class="type-signature">(async, inner) </span>getPhpReleases<span class="signature">(githubApiProvider)</span><span class="type-signature"> &rarr; {Promise.&lt;*>}</span></h4>
+    <h4 class="name" id="~formatDate"><span class="type-signature">(inner) </span>formatDate<span class="signature">(d)</span><span class="type-signature"> &rarr; {string}</span></h4>
     
 
     
@@ -485,7 +437,7 @@ and https://github.com/badges/shields/issues/319#issuecomment-74411045</p>
 
 
 <div class="description">
-    <p>Fetches the PHP release versions from cache if exists, else fetch from the source url and save in cache.</p>
+    <p>Returns a formatted date string without the year based on the value of input date param d.</p>
 </div>
 
 
@@ -521,12 +473,21 @@ and https://github.com/badges/shields/issues/319#issuecomment-74411045</p>
 
         <tr>
             
-                <td class="name"><code>githubApiProvider</code></td>
+                <td class="name"><code>d</code></td>
             
 
             <td class="type">
             
                 
+<span class="param-type">Date</span>
+|
+
+<span class="param-type">string</span>
+|
+
+<span class="param-type">number</span>
+|
+
 <span class="param-type">object</span>
 
 
@@ -537,7 +498,7 @@ and https://github.com/badges/shields/issues/319#issuecomment-74411045</p>
 
             
 
-            <td class="description last"><p>Github API provider</p></td>
+            <td class="description last"><p>Input date in dayjs compatible format, date object, datestring, Unix timestamp etc.</p></td>
         </tr>
 
     
@@ -578,7 +539,7 @@ and https://github.com/badges/shields/issues/319#issuecomment-74411045</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="services_php-version.js.html">services/php-version.js</a>, <a href="services_php-version.js.html#line273">line 273</a>
+        <a href="services_text-formatters.js.html">services/text-formatters.js</a>, <a href="services_text-formatters.js.html#line173">line 173</a>
     </li></ul></dd>
     
 
@@ -607,7 +568,7 @@ and https://github.com/badges/shields/issues/319#issuecomment-74411045</p>
 
         
 <div class="param-desc">
-    <p>Promise that resolves to parsed response</p>
+    <p>Formatted date string</p>
 </div>
 
 
@@ -618,7 +579,7 @@ and https://github.com/badges/shields/issues/319#issuecomment-74411045</p>
     </dt>
     <dd>
         
-<span class="param-type">Promise.&lt;*></span>
+<span class="param-type">string</span>
 
 
     </dd>
@@ -636,7 +597,7 @@ and https://github.com/badges/shields/issues/319#issuecomment-74411045</p>
     
 
     
-    <h4 class="name" id="~isStable"><span class="type-signature">(inner) </span>isStable<span class="signature">(version)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    <h4 class="name" id="~formatRelativeDate"><span class="type-signature">(inner) </span>formatRelativeDate<span class="signature">(timestamp)</span><span class="type-signature"> &rarr; {string}</span></h4>
     
 
     
@@ -644,7 +605,538 @@ and https://github.com/badges/shields/issues/319#issuecomment-74411045</p>
 
 
 <div class="description">
-    <p>Determines if a version is stable or not.</p>
+    <p>Returns a relative date from the input timestamp.
+For example, day after tomorrow's timestamp will return 'in 2 days'.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>timestamp</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+|
+
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Unix timestamp</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="services_text-formatters.js.html">services/text-formatters.js</a>, <a href="services_text-formatters.js.html#line192">line 192</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>Relative date from the unix timestamp</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="~maybePluralize"><span class="type-signature">(inner) </span>maybePluralize<span class="signature">(singular, countable, plural)</span><span class="type-signature"> &rarr; {string}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Returns a string that is either the singular or the plural form of a word,
+depending on the length of the countable parameter.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>singular</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Singular form of the word</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>countable</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;string></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Array of values you want to count</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>plural</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Plural form of the word</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="services_text-formatters.js.html">services/text-formatters.js</a>, <a href="services_text-formatters.js.html#line157">line 157</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>Singular or plural form of the word</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="~metric"><span class="type-signature">(inner) </span>metric<span class="signature">(n)</span><span class="type-signature"> &rarr; {string}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Given a number (positive or negative), returns a string with appropriate unit in the metric system, SI.
+Note: numbers beyond the peta- cannot be represented as integers in JS.
+For example, if you call metric(1000), it will return &quot;1k&quot;, which means one kilo or one thousand.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>n</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Input number</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="services_text-formatters.js.html">services/text-formatters.js</a>, <a href="services_text-formatters.js.html#line89">line 89</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>String with appropriate unit in the metric system, SI</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="~omitv"><span class="type-signature">(inner) </span>omitv<span class="signature">(version)</span><span class="type-signature"> &rarr; {string}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Remove the starting v in a string if it exists.
+For example, omitv(&quot;v1.2.3&quot;) returns &quot;1.2.3&quot;, but omitv(&quot;hello&quot;) returns &quot;hello&quot;.</p>
 </div>
 
 
@@ -696,7 +1188,7 @@ and https://github.com/badges/shields/issues/319#issuecomment-74411045</p>
 
             
 
-            <td class="description last"><p>Version number</p></td>
+            <td class="description last"><p>Version string</p></td>
         </tr>
 
     
@@ -737,7 +1229,7 @@ and https://github.com/badges/shields/issues/319#issuecomment-74411045</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="services_php-version.js.html">services/php-version.js</a>, <a href="services_php-version.js.html#line201">line 201</a>
+        <a href="services_text-formatters.js.html">services/text-formatters.js</a>, <a href="services_text-formatters.js.html#line123">line 123</a>
     </li></ul></dd>
     
 
@@ -766,7 +1258,7 @@ and https://github.com/badges/shields/issues/319#issuecomment-74411045</p>
 
         
 <div class="param-desc">
-    <p>true if version is stable, else false</p>
+    <p>Version string without the starting v</p>
 </div>
 
 
@@ -777,7 +1269,7 @@ and https://github.com/badges/shields/issues/319#issuecomment-74411045</p>
     </dt>
     <dd>
         
-<span class="param-type">boolean</span>
+<span class="param-type">string</span>
 
 
     </dd>
@@ -795,7 +1287,7 @@ and https://github.com/badges/shields/issues/319#issuecomment-74411045</p>
     
 
     
-    <h4 class="name" id="~latest"><span class="type-signature">(inner) </span>latest<span class="signature">(versions)</span><span class="type-signature"> &rarr; {string}</span></h4>
+    <h4 class="name" id="~ordinalNumber"><span class="type-signature">(inner) </span>ordinalNumber<span class="signature">(n)</span><span class="type-signature"> &rarr; {string}</span></h4>
     
 
     
@@ -803,7 +1295,8 @@ and https://github.com/badges/shields/issues/319#issuecomment-74411045</p>
 
 
 <div class="description">
-    <p>Determines the latest version from a list of versions.</p>
+    <p>Calculates the ordinal number of the given number.
+For example, if the input is 1, the output is “1ˢᵗ”.</p>
 </div>
 
 
@@ -839,13 +1332,13 @@ and https://github.com/badges/shields/issues/319#issuecomment-74411045</p>
 
         <tr>
             
-                <td class="name"><code>versions</code></td>
+                <td class="name"><code>n</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Array.&lt;string></span>
+<span class="param-type">number</span>
 
 
             
@@ -855,7 +1348,7 @@ and https://github.com/badges/shields/issues/319#issuecomment-74411045</p>
 
             
 
-            <td class="description last"><p>List of versions</p></td>
+            <td class="description last"><p>Input number</p></td>
         </tr>
 
     
@@ -896,7 +1389,7 @@ and https://github.com/badges/shields/issues/319#issuecomment-74411045</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="services_php-version.js.html">services/php-version.js</a>, <a href="services_php-version.js.html#line185">line 185</a>
+        <a href="services_text-formatters.js.html">services/text-formatters.js</a>, <a href="services_text-formatters.js.html#line72">line 72</a>
     </li></ul></dd>
     
 
@@ -925,7 +1418,7 @@ and https://github.com/badges/shields/issues/319#issuecomment-74411045</p>
 
         
 <div class="param-desc">
-    <p>Latest version</p>
+    <p>Ordinal number of the input number</p>
 </div>
 
 
@@ -954,7 +1447,7 @@ and https://github.com/badges/shields/issues/319#issuecomment-74411045</p>
     
 
     
-    <h4 class="name" id="~minorVersion"><span class="type-signature">(inner) </span>minorVersion<span class="signature">(version)</span><span class="type-signature"> &rarr; {string}</span></h4>
+    <h4 class="name" id="~starRating"><span class="type-signature">(inner) </span>starRating<span class="signature">(rating, max<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {string}</span></h4>
     
 
     
@@ -962,7 +1455,10 @@ and https://github.com/badges/shields/issues/319#issuecomment-74411045</p>
 
 
 <div class="description">
-    <p>Checks if a version is valid and returns the minor version.</p>
+    <p>Creates a string of stars and empty stars based on the rating.
+The number of stars is determined by the integer part of the rating.
+An additional star or a three-quarter star or a half star or a quarter star is added based on the decimal part of the rating.
+The remaining stars are empty stars until the maximum number of stars is reached.</p>
 </div>
 
 
@@ -986,7 +1482,11 @@ and https://github.com/badges/shields/issues/319#issuecomment-74411045</p>
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
+        
+        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -998,23 +1498,74 @@ and https://github.com/badges/shields/issues/319#issuecomment-74411045</p>
 
         <tr>
             
-                <td class="name"><code>version</code></td>
+                <td class="name"><code>rating</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">number</span>
 
 
             
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
             
 
-            <td class="description last"><p>Version number</p></td>
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>Current rating</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>max</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    5
+                
+                </td>
+            
+
+            <td class="description last"><p>Maximum rating</p></td>
         </tr>
 
     
@@ -1055,7 +1606,7 @@ and https://github.com/badges/shields/issues/319#issuecomment-74411045</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="services_php-version.js.html">services/php-version.js</a>, <a href="services_php-version.js.html#line219">line 219</a>
+        <a href="services_text-formatters.js.html">services/text-formatters.js</a>, <a href="services_text-formatters.js.html#line24">line 24</a>
     </li></ul></dd>
     
 
@@ -1084,7 +1635,7 @@ and https://github.com/badges/shields/issues/319#issuecomment-74411045</p>
 
         
 <div class="param-desc">
-    <p>Minor version</p>
+    <p>A string of stars and empty stars</p>
 </div>
 
 
@@ -1096,349 +1647,6 @@ and https://github.com/badges/shields/issues/319#issuecomment-74411045</p>
     <dd>
         
 <span class="param-type">string</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="~numberedVersionData"><span class="type-signature">(inner) </span>numberedVersionData<span class="signature">(version)</span><span class="type-signature"> &rarr; {object}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    <p>Take a version without the starting v.
-eg, '1.0.x-beta'
-Return { numbers: [1,0,something big], modifier: 2, modifierCount: 1 }</p>
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>version</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>Version number string</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="services_php-version.js.html">services/php-version.js</a>, <a href="services_php-version.js.html#line40">line 40</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    <p>Object containing version details</p>
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">object</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="~versionReduction"><span class="type-signature">(inner) </span>versionReduction<span class="signature">(versions, phpReleases)</span><span class="type-signature"> &rarr; {Array.&lt;string>}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    <p>Reduces the list of php versions that intersect with release versions to a version range (for eg. '5.4 - 7.1', '&gt;= 5.5').</p>
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>versions</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Array.&lt;string></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>List of php versions</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>phpReleases</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Array.&lt;string></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>List of php release versions</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="services_php-version.js.html">services/php-version.js</a>, <a href="services_php-version.js.html#line236">line 236</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    <p>Reduced Version Range (for eg. ['5.4 - 7.1'], ['&gt;= 5.5'])</p>
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Array.&lt;string></span>
 
 
     </dd>
