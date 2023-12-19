@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Module: services/downloads</title>
+    <title>JSDoc: Class: BaseTomlService</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Module: services/downloads</h1>
+    <h1 class="page-title">Class: BaseTomlService</h1>
 
     
 
@@ -28,6 +28,12 @@
 
 <header>
     
+        <h2><span class="attribs"><span class="type-signature">(abstract) </span></span>
+            <span class="ancestors"><a href="module-core_base-service_base-toml.html">core/base-service/base-toml</a>~</span>BaseTomlService<span class="signature">()</span><span class="type-signature"></span></h2>
+        
+            <div class="class-description"><p>Services which query a TOML endpoint should extend BaseTomlService</p></div>
+        
+    
 </header>
 
 <article>
@@ -35,7 +41,28 @@
     
         
 
-        
+    
+    <h2>Constructor</h2>
+    
+
+    
+    <h4 class="name" id="BaseTomlService"><span class="type-signature">(abstract) </span>new BaseTomlService<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 <dl class="details">
@@ -67,7 +94,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="services_downloads.js.html">services/downloads.js</a>, <a href="services_downloads.js.html#line1">line 1</a>
+        <a href="core_base-service_base-toml.js.html">core/base-service/base-toml.js</a>, <a href="core_base-service_base-toml.js.html#line16">line 16</a>
     </li></ul></dd>
     
 
@@ -79,7 +106,24 @@
 </dl>
 
 
-        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     
     </div>
 
@@ -106,7 +150,7 @@
     
 
     
-    <h4 class="name" id="~renderDownloadsBadge"><span class="type-signature">(inner) </span>renderDownloadsBadge<span class="signature">(attrs)</span><span class="type-signature"> &rarr; {object}</span></h4>
+    <h4 class="name" id="_requestToml"><span class="type-signature">(async) </span>_requestToml<span class="signature">(attrs)</span><span class="type-signature"> &rarr; {object}</span></h4>
     
 
     
@@ -114,8 +158,8 @@
 
 
 <div class="description">
-    <p>Handles rendering concerns of badges that display
-download counts, with override/customization support</p>
+    <p>Request data from an upstream API serving TOML,
+parse it and validate against a schema</p>
 </div>
 
 
@@ -185,6 +229,8 @@ download counts, with override/customization support</p>
         
 
         
+        <th>Default</th>
+        
 
         <th class="last">Description</th>
     </tr>
@@ -195,13 +241,13 @@ download counts, with override/customization support</p>
 
         <tr>
             
-                <td class="name"><code>downloads</code></td>
+                <td class="name"><code>schema</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">number</span>
+<span class="param-type">Joi</span>
 
 
             
@@ -218,21 +264,60 @@ download counts, with override/customization support</p>
             
 
             
+                <td class="default">
+                
+                </td>
+            
 
-            <td class="description last"><p>Number of downloads</p></td>
+            <td class="description last"><p>Joi schema to validate the response against</p></td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>interval</code></td>
+                <td class="name"><code>url</code></td>
             
 
             <td class="type">
             
                 
 <span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>URL to request</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
 
 
             
@@ -251,23 +336,28 @@ download counts, with override/customization support</p>
             
 
             
+                <td class="default">
+                
+                    {}
+                
+                </td>
+            
 
-            <td class="description last"><p>Period or interval the downloads occurred
-(e.g. day, week, month). If provided then this Will be reflected
-in the badge message unless overridden by other message-related parameters</p></td>
+            <td class="description last"><p>Options to pass to got. See
+<a href="https://github.com/sindresorhus/got/blob/main/documentation/2-options.md">documentation</a></p></td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>version</code></td>
+                <td class="name"><code>httpErrors</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">object</span>
 
 
             
@@ -286,22 +376,30 @@ in the badge message unless overridden by other message-related parameters</p></
             
 
             
+                <td class="default">
+                
+                    {}
+                
+                </td>
+            
 
-            <td class="description last"><p>Version or tag that was downloaded
-which will be reflected in the badge label (unless the label is overridden)</p></td>
+            <td class="description last"><p>Key-value map of status codes
+and custom error messages e.g: <code>{ 404: 'package not found' }</code>.
+This can be used to extend or override the
+<a href="https://github.com/badges/shields/blob/master/core/base-service/check-error-response.js#L5">default</a></p></td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>labelOverride</code></td>
+                <td class="name"><code>systemErrors</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">object</span>
 
 
             
@@ -320,22 +418,32 @@ which will be reflected in the badge label (unless the label is overridden)</p><
             
 
             
+                <td class="default">
+                
+                    {}
+                
+                </td>
+            
 
-            <td class="description last"><p>If provided then the badge label is set to this
-value overriding any other label-related parameters</p></td>
+            <td class="description last"><p>Key-value map of got network exception codes
+and an object of params to pass when we construct an Inaccessible exception object
+e.g: <code>{ ECONNRESET: { prettyMessage: 'connection reset' } }</code>.
+See <a href="https://github.com/sindresorhus/got/blob/main/documentation/7-retry.md#errorcodes">got error codes</a>
+for allowed keys
+and <a href="module-core_base-service_errors.html#~RuntimeErrorProps">module:core/base-service/errors~RuntimeErrorProps</a> for allowed values</p></td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>colorOverride</code></td>
+                <td class="name"><code>logErrors</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">Array.&lt;number></span>
 
 
             
@@ -354,77 +462,15 @@ value overriding any other label-related parameters</p></td>
             
 
             
-
-            <td class="description last"><p>If provided then the badge color is set to this
-value instead of the color being based on the count of downloads</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>messageSuffixOverride</code></td>
-            
-
-            <td class="type">
-            
+                <td class="default">
                 
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
+                    [429]
                 
                 </td>
             
 
-            
-
-            <td class="description last"><p>If provided then the badge message will
-will have this value added to the download count, separated with a space</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>versionedLabelPrefix</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last"><p>If provided then the badge label will use
-this value as the prefix for versioned badges, e.g. <code>foobar@v1.23</code>. Defaults to 'downloads'</p></td>
+            <td class="description last"><p>An array of http error codes
+that will be logged (to sentry, if configured).</p></td>
         </tr>
 
     
@@ -472,12 +518,19 @@ this value as the prefix for versioned badges, e.g. <code>foobar@v1.23</code>. D
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="services_downloads.js.html">services/downloads.js</a>, <a href="services_downloads.js.html#line29">line 29</a>
+        <a href="core_base-service_base-toml.js.html">core/base-service/base-toml.js</a>, <a href="core_base-service_base-toml.js.html#line41">line 41</a>
     </li></ul></dd>
     
 
     
 
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="https://github.com/sindresorhus/got/blob/main/documentation/2-options.md">https://github.com/sindresorhus/got/blob/main/documentation/2-options.md</a></li>
+        </ul>
+    </dd>
     
 
     
@@ -501,7 +554,7 @@ this value as the prefix for versioned badges, e.g. <code>foobar@v1.23</code>. D
 
         
 <div class="param-desc">
-    <p>Badge</p>
+    <p>Parsed response</p>
 </div>
 
 
